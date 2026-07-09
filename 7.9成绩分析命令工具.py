@@ -55,3 +55,31 @@ def calc_stat():
     print(f"最低分：{min_s}")
     print(f"方差：{var_s:.2f}")
     print(f"标准差：{std_s:.2f}\n")
+
+def rank_sort():
+    if not scores:
+        print("暂无成绩数据，请先录入\n")
+        return
+    arr = np.array(scores)
+    student_info = list(zip(names, scores))
+    student_info.sort(key=lambda x:x[1], reverse=True)
+    print("\n====成绩排名（高分在前）====")
+    for pos in range(len(student_info)):
+        print(f"第{pos+1}名  {student_info[pos][0]}  {student_info[pos][1]}分")
+    print()
+
+def level_count():
+    if len(scores) == 0:
+        print("暂无成绩数据，请先录入\n")
+        return
+    arr = np.array(scores)
+    exc = np.sum(arr >= 90)
+    good = np.sum((arr >= 80) & (arr < 90))
+    mid = np.sum((arr >= 60) & (arr < 80))
+    bad = np.sum(arr < 60)
+    total = len(arr)
+    print("\n====成绩等级分布====")
+    print(f"优秀(90~100)：{exc}人，占比{exc/total*100:.1f}%")
+    print(f"良好(80~89)：{good}人，占比{good/total*100:.1f}%")
+    print(f"及格(60~79)：{mid}人，占比{mid/total*100:.1f}%")
+    print(f"不及格(0~59)：{bad}人，占比{bad/total*100:.1f}%\n")
