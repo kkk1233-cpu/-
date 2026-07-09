@@ -129,3 +129,28 @@ def find_single():
         print(f"\n{target} 的成绩：{mark}，等级：{lv}\n")
     else:
         print("系统里没有这个学生\n")
+
+# 主循环运行程序
+if __name__ == "__main__":
+    while 1:
+        print_menu()
+        try:
+            opt = int(input("请选择："))
+        except:
+            print("只能输入数字1-6！")
+            continue
+        if opt == 1:
+            add_data()
+        elif opt == 2:
+            calc_stat()
+        elif opt == 3:
+            rank_sort()
+        elif opt == 4:
+            level_count()
+        elif opt == 5:
+            find_single()
+        elif opt == 6:
+            print("系统退出，结束运行")
+            break
+        else:
+            print("输入超出1-6范围，请重新选择\n")
