@@ -108,3 +108,22 @@ def level_count():
     print(f"良好(80~89)：{good}人，占比{good/total*100:.1f}%")
     print(f"及格(60~79)：{mid}人，占比{mid/total*100:.1f}%")
     print(f"不及格(0~59)：{bad}人，占比{bad/total*100:.1f}%\n")
+    
+    def find_single():
+    target = input("请输入要查询的学生姓名：")
+    if target in names:
+        index = names.index(target)
+        mark = scores[index]
+        # 手动判定等级
+        if mark >= 90:
+            lv = "优秀"
+        elif mark >= 80:
+            lv = "良好"
+        elif mark >= 60:
+            lv = "及格"
+        else:
+            lv = "不及格"
+        print(f"\n{target} 的成绩：{mark}，等级：{lv}\n")
+    else:
+        print("系统里没有这个学生\n")
+
