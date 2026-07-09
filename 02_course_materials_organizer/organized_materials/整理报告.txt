@@ -1,0 +1,23 @@
+============================== 课程资料整理报告 ==============================
+操作模式：复制
+整理总文件数：9 个
+
+【分类统计】
+- homework：2 个
+- slides：1 个
+- code：1 个
+- documents：2 个
+- data：1 个
+- images：1 个
+- others：1 个
+
+【文件操作详情】
+[homework] C:\Users\kongfj\Desktop\1\02_course_materials_organizer\sample_materials\NumPy 数组练习.ipynb → C:\Users\kongfj\Desktop\1\02_course_materials_organizer\organized_materials\homework\NumPy 数组练习.ipynb
+[homework] C:\Users\kongfj\Desktop\1\02_course_materials_organizer\sample_materials\Python 第 01 讲_作业说明.pdf → C:\Users\kongfj\Desktop\1\02_course_materials_organizer\organized_materials\homework\Python 第 01 讲_作业说明.pdf
+[slides] C:\Users\kongfj\Desktop\1\02_course_materials_organizer\sample_materials\Python 第 01 讲_基础语法.pptx → C:\Users\kongfj\Desktop\1\02_course_materials_organizer\organized_materials\slides\Python 第 01 讲_基础语法.pptx
+[code] C:\Users\kongfj\Desktop\1\02_course_materials_organizer\sample_materials\Python 第 01 讲_课堂代码.py → C:\Users\kongfj\Desktop\1\02_course_materials_organizer\organized_materials\code\Python 第 01 讲_课堂代码.py
+[documents] C:\Users\kongfj\Desktop\1\02_course_materials_organizer\sample_materials\学生问题记录.md → C:\Users\kongfj\Desktop\1\02_course_materials_organizer\organized_materials\documents\学生问题记录.md
+[data] C:\Users\kongfj\Desktop\1\02_course_materials_organizer\sample_materials\成绩样例.csv → C:\Users\kongfj\Desktop\1\02_course_materials_organizer\organized_materials\data\成绩样例.csv
+[images] C:\Users\kongfj\Desktop\1\02_course_materials_organizer\sample_materials\截图_环境配置.png → C:\Users\kongfj\Desktop\1\02_course_materials_organizer\organized_materials\images\截图_环境配置.png
+[others] C:\Users\kongfj\Desktop\1\02_course_materials_organizer\sample_materials\未分类文件.xyz → C:\Users\kongfj\Desktop\1\02_course_materials_organizer\organized_materials\others\未分类文件.xyz
+[documents] C:\Users\kongfj\Desktop\1\02_course_materials_organizer\sample_materials\课程通知.txt → C:\Users\kongfj\Desktop\1\02_course_materials_organizer\organized_materials\documents\课程通知.txt
