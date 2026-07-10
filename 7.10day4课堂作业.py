@@ -43,3 +43,40 @@ east_df = orders.loc[orders['region'] == '华东', ['order_id','product','member
 print("华东订单loc筛选结果：")
 print(east_df)
 print("解释：loc通过布尔条件筛选地区，仅展示指定的订单ID、商品、会员等级三列。\n")
+
+# 1.5 loc推荐原因
+print("推荐loc的原因：loc基于行列标签匹配，不受索引重排、数据删改影响；iloc仅依赖数字下标，索引错乱后会取错数据，业务场景loc稳定性与可读性更强。\n")
+
+print("==================== 任务2：构造订单结算指标 ====================")
+# 基于原表生成新表analysis，向量化新增结算字段
+analysis = orders.assign(
+    gross_amount = lambda x: x['quantity'] * x['unit_price'],
+    member_discount = lambda x: np.where(x['member_level'] == '金卡', 0.10, np.where(x['member_level'] == '银卡', 0.05, 0.00)),
+    payable_amount = lambda x: (x['gross_amount'] * (1 - x['member_discount']) * (1 - x['coupon_rate'])).round(2),
+    shipping_fee = lambda x: np.where(x['payable_amount'] >= 1000, 0, 20),
+    final_amount = lambda x: (x['payable_amount'] + x['shipping_fee']).round(2)
+)
+show_cols = ['order_id','gross_amount','member_discount','payable_amount','shipping_fee','final_amount']
+print("结算指标前8行：")
+print(analysis[show_cols].head(8))
+print("解释：使用assign不修改原始数据，全部向量化运算，依次计算货值、会员折扣、优惠应付、运费、最终实付金额并保留两位小数。\n")
+
+print("==================== 任务3：复杂条件筛选重点跟进订单 ====================")
+# 定义3个独立布尔条件
+cond1 = (analysis['region'] == '华东') | (analysis['region'] == '华南')
+cond2 = analysis['final_amount'] >= 700
+cond3 = (analysis['quantity'] >= 2) | (analysis['member_level'] == '金卡')
+mask = cond1 & cond2 & cond3
+
+# 筛选、指定列、金额降序
+target_orders = analysis.loc[mask, ['order_id','region','product','quantity','member_level','final_amount']].sort_values('final_amount', ascending=False)
+print("重点跟进订单：")
+print(target_orders)
+print("&、|两侧加括号原因：&、|优先级高于比较运算符，不加括号会优先执行位运算，逻辑判断失效；括号隔离每个独立条件保证逻辑正确。")
+print("解释：筛选华东南、实付≥700、满足量大或金卡任一条件的高价值订单，按成交金额从高到低排序。\n")
+
+print("==================== 任务4：封装订单等级函数 + pipe调用 ====================")
+def add_order_level(df):
+    df_copy = df.copy()
+    df_copy['order_level'] = np.where(df_copy['final_amount'] >= 2000, '战略订单', np.where(df_copy['final_amount'] >= 1000, '重点订单', '普通订单'))
+    return df_copy
