@@ -80,3 +80,51 @@ def add_order_level(df):
     df_copy = df.copy()
     df_copy['order_level'] = np.where(df_copy['final_amount'] >= 2000, '战略订单', np.where(df_copy['final_amount'] >= 1000, '重点订单', '普通订单'))
     return df_copy
+
+leveled_orders = analysis.pipe(add_order_level)
+level_count = leveled_orders['order_level'].value_counts()
+print("各订单等级数量：")
+print(level_count)
+print("解释：函数内部拷贝数据不污染原入参，嵌套np.where完成三级分级，pipe链式调用后统计各类订单总量。\n")
+
+print("==================== 任务5：单条方法链生成区域经营报表 ====================")
+region_report = (
+    analysis
+    .pipe(add_order_level)
+    .query("final_amount >= 500")
+    .groupby(['region', 'order_level'], as_index=False)
+    .agg(
+        order_count=('order_id', 'count'),
+        quantity_sum=('quantity', 'sum'),
+        revenue_sum=('final_amount', 'sum'),
+        revenue_mean=('final_amount', 'mean')
+    )
+    .sort_values('revenue_sum', ascending=False)
+)
+print("区域分层经营报表：")
+print(region_report)
+print("解释：全程无额外中间变量，链式完成分级、低金额过滤、地区+订单等级双层分组聚合，按总营收降序输出经营汇总。\n")
+
+print("==================== 任务6：经营诊断分析 ====================")
+# 6.1 找出成交金额最高销售
+sales_total = leveled_orders.groupby('salesperson')['final_amount'].sum().reset_index()
+top_sales = sales_total.loc[sales_total['final_amount'].idxmax()]
+top_name = top_sales['salesperson']
+top_total = round(top_sales['final_amount'], 2)
+
+# 6.2 该销售金额最高地区
+sales_region = leveled_orders[leveled_orders['salesperson'] == top_name].groupby('region')['final_amount'].sum().reset_index()
+top_region = sales_region.loc[sales_region['final_amount'].idxmax()]
+r_name = top_region['region']
+r_amount = round(top_region['final_amount'], 2)
+
+# 6.3 地区营收占比
+ratio = round(r_amount / top_total * 100, 2)
+
+# 输出诊断结果
+print(f"销冠销售人员：{top_name}")
+print(f"个人总成交金额：{top_total}")
+print(f"核心贡献地区：{r_name}")
+print(f"该地区成交金额：{r_amount}")
+print(f"核心地区营收贡献率：{ratio}%")
+print("业务结论：该销售人员业绩高度集中于单一核心区域，可持续深耕该区域市场，同时拓展其他区域降低业绩依赖风险。")
